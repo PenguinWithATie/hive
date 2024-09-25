@@ -7,10 +7,10 @@ pub fn Resources() -> impl IntoView {
     let header_class = "text-2xl font-semibold mb-4";
     let list_class = "space-y-2";
     view! {
-        <div class="pt-20 px-4">
-            <div class="container mx-auto px-4">
-                <Banner title="Community links"/>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="px-4 pt-20">
+            <div class="container px-4 mx-auto">
+                <Banner title="Community links".into_view()/>
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                     <section>
                         <h2 class=header_class>Hive news</h2>
                         <ul class=list_class>

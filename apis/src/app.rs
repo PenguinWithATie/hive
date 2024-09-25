@@ -1,5 +1,6 @@
 use crate::{
     components::layouts::base_layout::BaseLayout,
+    i18n::I18nContextProvider,
     pages::{
         account::Account,
         admin::Admin,
@@ -67,74 +68,76 @@ pub fn App() -> impl IntoView {
     provide_sounds();
     provide_profile_games();
     view! {
-        <Stylesheet id="leptos" href="/pkg/HiveGame.css"/>
-        <Router trailing_slash=TrailingSlash::Redirect>
-            <Routes>
-                <Route
-                    path=""
-                    view=|| {
-                        view! {
-                            <BaseLayout>
-                                <Outlet/>
-                            </BaseLayout>
-                        }
-                    }
-                >
-
-                    <Route path="" ssr=SsrMode::InOrder view=|| view! { <Home/> }/>
+        <I18nContextProvider>
+            <Stylesheet id="leptos" href="/pkg/HiveGame.css"/>
+            <Router trailing_slash=TrailingSlash::Redirect>
+                <Routes>
                     <Route
-                        path="/@/:username"
+                        path=""
                         view=|| {
                             view! {
-                                <ProfileView>
+                                <BaseLayout>
                                     <Outlet/>
-                                </ProfileView>
+                                </BaseLayout>
                             }
                         }
                     >
 
+                        <Route path="" ssr=SsrMode::InOrder view=|| view! { <Home/> }/>
                         <Route
-                            path=""
-                            view=|| view! { <DisplayGames tab_view=GameProgress::Playing/> }
-                        />
+                            path="/@/:username"
+                            view=|| {
+                                view! {
+                                    <ProfileView>
+                                        <Outlet/>
+                                    </ProfileView>
+                                }
+                            }
+                        >
+
+                            <Route
+                                path=""
+                                view=|| view! { <DisplayGames tab_view=GameProgress::Playing/> }
+                            />
+                            <Route
+                                path="playing"
+                                view=|| view! { <DisplayGames tab_view=GameProgress::Playing/> }
+                            />
+                            <Route
+                                path="finished"
+                                view=|| view! { <DisplayGames tab_view=GameProgress::Finished/> }
+                            />
+                            <Route
+                                path="unstarted"
+                                view=|| view! { <DisplayGames tab_view=GameProgress::Unstarted/> }
+                            />
+                        </Route>
+                        <Route path="/register" view=|| view! { <Register/> }/>
+                        <Route path="/top_players" view=|| view! { <TopPlayers/> }/>
+                        <Route path="/login" view=|| view! { <Login/> }/>
+                        <Route path="/account" view=|| view! { <Account/> }/>
+                        <Route path="/challenge/:nanoid" view=|| view! { <ChallengeView/> }/>
+                        <Route path="/analysis" view=|| view! { <Analysis/> }/>
+                        <Route path="/config" view=|| view! { <Config/> }/>
+                        <Route path="/tournament/:nanoid" view=|| view! { <Tournament/> }/>
+                        <Route path="/tournaments/create" view=|| view! { <TournamentCreate/> }/>
+                        <Route path="/tournaments" view=|| view! { <Tournaments/> }/>
+                        <Route path="/donate" view=|| view! { <Donate/> }/>
+                        <Route path="/faq" view=|| view! { <Faq/> }/>
+                        <Route path="/puzzles" view=|| view! { <Puzzles/> }/>
+                        <Route path="/rules" view=|| view! { <Rules/> }/>
+                        <Route path="/strategy" view=|| view! { <Strategy/> }/>
+                        <Route path="/resources" view=|| view! { <Resources/> }/>
+                        <Route path="/tutorial" view=|| view! { <Tutorial/> }/>
                         <Route
-                            path="playing"
-                            view=|| view! { <DisplayGames tab_view=GameProgress::Playing/> }
+                            path="/game/:nanoid"
+                            ssr=SsrMode::PartiallyBlocked
+                            view=|| view! { <Play/> }
                         />
-                        <Route
-                            path="finished"
-                            view=|| view! { <DisplayGames tab_view=GameProgress::Finished/> }
-                        />
-                        <Route
-                            path="unstarted"
-                            view=|| view! { <DisplayGames tab_view=GameProgress::Unstarted/> }
-                        />
+                        <Route path="/admin" view=|| view! { <Admin/> }/>
                     </Route>
-                    <Route path="/register" view=|| view! { <Register/> }/>
-                    <Route path="/top_players" view=|| view! { <TopPlayers/> }/>
-                    <Route path="/login" view=|| view! { <Login/> }/>
-                    <Route path="/account" view=|| view! { <Account/> }/>
-                    <Route path="/challenge/:nanoid" view=|| view! { <ChallengeView/> }/>
-                    <Route path="/analysis" view=|| view! { <Analysis/> }/>
-                    <Route path="/config" view=|| view! { <Config/> }/>
-                    <Route path="/tournament/:nanoid" view=|| view! { <Tournament/> }/>
-                    <Route path="/tournaments/create" view=|| view! { <TournamentCreate/> }/>
-                    <Route path="/tournaments" view=|| view! { <Tournaments/> }/>
-                    <Route path="/donate" view=|| view! { <Donate/> }/>
-                    <Route path="/faq" view=|| view! { <Faq/> }/>
-                    <Route path="/puzzles" view=|| view! { <Puzzles/> }/>
-                    <Route path="/rules" view=|| view! { <Rules/> }/>
-                    <Route path="/strategy" view=|| view! { <Strategy/> }/>
-                    <Route path="/resources" view=|| view! { <Resources/> }/>
-                    <Route path="/tutorial" view=|| view! { <Tutorial/> }/>
-                    <Route
-                        path="/game/:nanoid"
-                        ssr=SsrMode::PartiallyBlocked
-                        view=|| view! { <Play/> }
-                    />
-                    <Route path="/admin" view=|| view! { <Admin/> }/>
-                </Route>
-            </Routes>
-        </Router>
+                </Routes>
+            </Router>
+        </I18nContextProvider>
     }
 }
