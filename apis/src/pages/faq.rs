@@ -1,7 +1,6 @@
-use leptos::*;
-
-use crate::components::molecules::banner::Banner;
+use crate::components::{atoms::simple_link::SimpleLink, molecules::banner::Banner};
 use crate::i18n::*;
+use leptos::*;
 
 #[component]
 pub fn Faq() -> impl IntoView {
@@ -9,72 +8,23 @@ pub fn Faq() -> impl IntoView {
     let header_class = "text-lg leading-6 font-medium";
     let paragraph_class = "mt-2 text-base";
     let div_class = "p-3";
-    let source_link = |children| {
-        view! {
-            <a
-                href="https://github.com/hiveboardgame/hive"
-                rel="external"
-                target="_blank"
-                class="text-blue-500 hover:underline"
-            >
-                {children}
-            </a>
-        }
+    let source_link = |children: ChildrenFn| {
+        view! { <SimpleLink link="https://github.com/hiveboardgame/hive" children=children.into()/> }
     };
-    let discord_link = |children| {
-        view! {
-            <a
-                href="https://discord.gg/jNTjr5vj9Z"
-                rel="external"
-                target="_blank"
-                class="text-blue-500 hover:underline"
-            >
-                {children}
-            </a>
-        }
+    let discord_link = |children: ChildrenFn| {
+        view! { <SimpleLink link="https://discord.gg/jNTjr5vj9Z" children=children.into()/> }
     };
-    let donate_link = |children| {
-        view! {
-            <a href="/donate" class="text-blue-500 hover:underline">
-                {children}
-            </a>
-        }
+    let donate_link = |children: ChildrenFn| {
+        view! { <SimpleLink link="/donate" children=children.into()/> }
     };
     let gen42_link = |_| {
-        view! {
-            <a
-                href="https://www.gen42.com/"
-                rel="external"
-                target="_blank"
-                class="text-blue-500 hover:underline"
-            >
-                Gen42
-            </a>
-        }
+        view! { <SimpleLink link="https://www.gen42.com/" text="Gen42"/> }
     };
     let glicko2_link = |_| {
-        view! {
-            <a
-                href="https://en.wikipedia.org/wiki/Glicko-2"
-                rel="external"
-                target="_blank"
-                class="text-blue-500 hover:underline"
-            >
-                Glicko-2
-            </a>
-        }
+        view! { <SimpleLink link="https://en.wikipedia.org/wiki/Glicko-2" text="Glicko-2"/> }
     };
-    let resources_link = |children| {
-        view! {
-            <a
-                href="/resources"
-                rel="external"
-                target="_blank"
-                class="text-blue-500 hover:underline"
-            >
-                {children}
-            </a>
-        }
+    let resources_link = |children: ChildrenFn| {
+        view! { <SimpleLink link="/resources" children=children.into()/> }
     };
     view! {
         <div class="pt-20">
